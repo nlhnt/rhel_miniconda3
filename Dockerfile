@@ -2,8 +2,12 @@ FROM redhat/ubi9-init
 # use bash as the default shell for this image
 SHELL ["/bin/bash", "-l", "-c"]
 # install dependencies
+
+ARG CHOSEN_PY_VERSION
+
 RUN yum -y --allowerasing install \
     gcc \
+    gcc-c++ \
     procps \
     && yum -y clean all \
     && rm -rf /var/cache 
@@ -18,7 +22,7 @@ RUN /tmp/minicond3_latest_x86_64.sh -b -u -p root/miniconda3 \
     && conda init
 # create miniconda3 env
 # activate new miniconda3 env when running bash with --login flag (-l)
-RUN conda create --prefix /opt/venv python=3.8 --yes \
+RUN conda create --prefix /opt/venv python=${CHOSEN_PY_VERSION} --yes \
     && echo "# activate miniconda3 env /opt/venv when using bash with --login flag (-l)" >> /root/.bashrc \
     && echo "conda activate /opt/venv" >> /root/.bashrc
 
