@@ -4,6 +4,7 @@ SHELL ["/bin/bash", "-l", "-c"]
 # install dependencies
 
 ARG CHOSEN_PY_VERSION
+ENV CHOSEN_PY_VER ${CHOSEN_PY_VERSION}
 
 RUN yum -y --allowerasing install \
     gcc \
@@ -22,7 +23,7 @@ RUN /tmp/minicond3_latest_x86_64.sh -b -u -p root/miniconda3 \
     && conda init
 # create miniconda3 env
 # activate new miniconda3 env when running bash with --login flag (-l)
-RUN conda create --prefix /opt/venv python=${CHOSEN_PY_VERSION} --yes \
+RUN conda create --prefix /opt/venv python=${CHOSEN_PY_VER} --yes \
     && echo "# activate miniconda3 env /opt/venv when using bash with --login flag (-l)" >> /root/.bashrc \
     && echo "conda activate /opt/venv" >> /root/.bashrc
 
