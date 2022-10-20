@@ -16,6 +16,12 @@ RUN curl https://repo.anaconda.com/miniconda/Miniconda3-py38_4.12.0-Linux-x86_64
 RUN /tmp/minicond3_latest_x86_64.sh -b -u -p root/miniconda3 \
     && source /root/miniconda3/bin/activate \
     && conda init
+# create miniconda3 env
+# activate new miniconda3 env when running bash with --login flag (-l)
+RUN conda create --prefix /opt/venv python=3.8 --yes \
+    && echo "# activate miniconda3 env /opt/venv when using bash with --login flag (-l)" >> /root/.bashrc \
+    && echo "conda activate /opt/venv" >> /root/.bashrc
+
 # copy requirements.txt
 COPY --chown=root:root /requirements.txt /home/app/requirements.txt
 # install python dependencies
