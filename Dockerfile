@@ -5,6 +5,10 @@ SHELL ["/bin/bash", "-l", "-c"]
 
 ARG CHOSEN_PY_VERSION
 ENV CHOSEN_PY_VER ${CHOSEN_PY_VERSION}
+ARG APP_USER
+
+RUN echo ${CHOSEN_PY_VER} \
+    echo ${APP_USER}
 
 RUN yum -y --allowerasing install \
     gcc \
@@ -33,3 +37,7 @@ COPY --chown=root:root /requirements.txt /home/app/requirements.txt
 RUN pip install --no-cache-dir --upgrade pip \
     pip install --no-cache-dir twine keyring artifacts-keyring \
     pip install --no-cache-dir -r /home/app/requirements.txt
+
+USER APP_USER
+
+CMD [ "cd /home/app ; pytest ." ]

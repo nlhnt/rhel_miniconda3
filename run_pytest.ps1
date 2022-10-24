@@ -1,0 +1,1 @@
+docker run -t -i --privileged --rm rhel_miniconda3 bash -c -l "cd /home/app ; pytest ."
