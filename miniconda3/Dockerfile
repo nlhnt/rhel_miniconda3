@@ -38,6 +38,5 @@ RUN pip install --no-cache-dir --upgrade pip \
     pip install --no-cache-dir twine keyring artifacts-keyring \
     pip install --no-cache-dir -r /home/app/requirements.txt
 
-USER APP_USER
 
 CMD [ "cd /home/app ; pytest ." ]

@@ -1,0 +1,1 @@
+docker run -t -i --privileged --rm rhel_pyenv bash

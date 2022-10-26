@@ -1,0 +1,1 @@
+docker build . --build-arg CHOSEN_PY_VERSION=3.8 --build-arg APP_USER=appown -t rhel_pyenv:latest
