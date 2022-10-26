@@ -47,7 +47,10 @@ RUN echo 'export PYENV_ROOT="$PYENV_ROOT"' >> ~/.bashrc \
 
 # install python of chosen version
 # could be used like so: `pyenv install -v 3.8:latest` or `pyenv install -v 3.x:latest`
-RUN pyenv install -v ${CHOSEN_PY_VER}.14
+# RUN pyenv install -v ${CHOSEN_PY_VER}.14
+# Instead of specifying what version we will install, we'll use this regex to get the latest patch for a minor version chosen by the user
+RUN echo 'export PY_VER_TO_INSTALL=$(pyenv install --list | sed -r "s/\s+//g" | grep -P "^$CHOSEN_PY_VER.\d+$" | tail -1)' >> ~/.bashrc
+RUN pyenv install -v $PY_VER_TO_INSTALL
 
 # create virtualenv
 # pyenv works with `-m venv` and `virtualenv` as well
@@ -57,7 +60,7 @@ RUN pyenv install -v ${CHOSEN_PY_VER}.14
 ENV VIRTUAL_ENV /opt/venv
 # change workdir to /tmp
 WORKDIR /tmp
-RUN pyenv virtualenv 3.8.14 venv
+RUN pyenv virtualenv $PY_VER_TO_INSTALL venv
 RUN pyenv local venv
 # create virtualenv using `-m venv`
 RUN python -m venv ${VIRTUAL_ENV}
